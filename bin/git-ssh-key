@@ -5,7 +5,7 @@ _git_ssh_key_usage(){
 }
 
 _git_ssh_key_list(){
-  git api get /user/keys | egrep "id|title" | awk '{print $2}' |\
+  git api get /user/keys | egrep 'id|title' | awk '{print $2}' |\
     sed s/,$//g | xargs -n2 | awk '{ print $2" "$1 }'
   exit
 }
