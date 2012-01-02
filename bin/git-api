@@ -6,19 +6,19 @@ __git_api_access_token(){
 
 _git_api_get(){
   token=$(__git_api_access_token)
-  test -z $token && echo "access token required." >&2 && exit 42
+  test -z "$token" && echo "access token required." >&2 && exit 42
   curl -sSfH "Authorization: token $token" https://api.github.com$*
 }
 
 _git_api_post(){
   token=$(__git_api_access_token)
-  test -z $token && echo "access token required." >&2 && exit 42
+  test -z "$token" && echo "access token required." >&2 && exit 42
   curl -sSfX POST -H "Authorization: token $token" https://api.github.com$*
 }
 
 _git_api_delete(){
   token=$(__git_api_access_token)
-  test -z $token && echo "access token required." >&2 && exit 42
+  test -z "$token" && echo "access token required." >&2 && exit 42
   curl -sSfX DELETE -H "Authorization: token $token" https://api.github.com$*
 }
 
