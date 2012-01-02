@@ -1,0 +1,21 @@
+#!/bin/sh
+
+_git_pull_request_usage(){
+  echo "$0"
+}
+
+_git_pull_request_list(){
+  exit
+}
+
+test $# -eq 0 && _git_pull_request_list
+
+subcommand=$1
+shift
+case $subcommand in
+  open) _git_pull_request_open $* ;;
+  close) _git_pull_request_close $* ;;
+  merge) _git_pull_request_merge $* ;;
+  show) _git_pull_request_show $* ;; # List commits on a pull request, List pull requests files
+  *) _git_pull_request_usage ;;
+esac
