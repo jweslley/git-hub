@@ -1,0 +1,32 @@
+#!/bin/sh
+
+_git_ssh_key_usage(){
+  echo "$0"
+}
+
+_git_ssh_key_list(){
+  git api get /user/keys | egrep "id|title" | awk '{print $2}' |\
+    sed s/,$//g | xargs -n2 | awk '{ print $2" "$1 }'
+  exit
+}
+
+_git_ssh_key_add(){
+
+  git api post /user/keys
+}
+
+_git_ssh_key_rm(){
+  id=$1
+  test -z $id && echo "id required." >&2 && exit 1
+  git api delete /user/keys/$id
+}
+
+test $# -eq 0 && _git_ssh_key_list
+
+subcommand=$1
+shift
+case $subcommand in
+  add) _git_ssh_key_add $* ;;
+  rm) _git_ssh_key_rm $* ;;
+  *) _git_ssh_key_usage ;;
+esac

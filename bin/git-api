@@ -1,0 +1,32 @@
+#!/bin/bash
+
+__git_api_access_token(){
+  echo $(git config github-tools.token)
+}
+
+_git_api_get(){
+  token=$(__git_api_access_token)
+  test -z $token && echo "access token required." >&2 && exit 42
+  curl -sfH "Authorization: token $token" https://api.github.com$*
+}
+
+_git_api_post(){
+  token=$(__git_api_access_token)
+  test -z $token && echo "access token required." >&2 && exit 42
+  curl -sfX POST -H "Authorization: token $token" https://api.github.com$*
+}
+
+_git_api_delete(){
+  token=$(__git_api_access_token)
+  test -z $token && echo "access token required." >&2 && exit 42
+  curl -sfX DELETE -H "Authorization: token $token" https://api.github.com$*
+}
+
+subcommand=$1
+shift
+case $subcommand in
+  get) _git_api_get $1 ;;
+  post) _git_api_post $1 ;;
+  delete) _git_api_delete $1 ;;
+  token) __git_api_access_token ;;
+esac
