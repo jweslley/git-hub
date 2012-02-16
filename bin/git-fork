@@ -12,5 +12,6 @@ test -z "$user" && echo "username required." && exit 1
 
 repo=${repo%.git}
 
+echo "Forking $owner/$repo"
 git api post /repos/$owner/$repo/forks > /dev/null \
   && git remote add -f $user git@github.com:$user/$repo.git
