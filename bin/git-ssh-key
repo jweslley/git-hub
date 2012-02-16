@@ -5,20 +5,22 @@ _git_ssh_key_usage(){
 }
 
 _git_ssh_key_list(){
-  git api get /user/keys | jshon -a -e id -u -p -e title -u |\
+  git api GET /user/keys | jshon -a -e id -u -p -e title -u |\
     sed -e '{N;s/\n/ /}' | column -t
   exit
 }
 
 _git_ssh_key_add(){
-
-  git api post /user/keys
+  title="$1"
+  pubkey_file="$2"
+  body="{\"title\": \"$title\", \"key\": \"$(cat $pubkey_file)\"}"
+  git api POST /user/keys "$body"
 }
 
 _git_ssh_key_rm(){
   id=$1
   test -z $id && echo "id required." >&2 && exit 1
-  git api delete /user/keys/$id
+  git api DELETE /user/keys/$id
 }
 
 test $# -eq 0 && _git_ssh_key_list

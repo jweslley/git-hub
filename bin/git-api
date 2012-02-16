@@ -1,27 +1,13 @@
 #!/bin/bash
 
-_git_api_get(){
-  token=$(git gh-oauth)
-  test -z "$token" && echo "access token required." >&2 && exit 42
-  curl -sSfH "Authorization: token $token" https://api.github.com$*
-}
+method="$1"; shift
+url="$1"; shift
+body="$*"
+token=$(git gh-oauth)
 
-_git_api_post(){
-  token=$(git gh-oauth)
-  test -z "$token" && echo "access token required." >&2 && exit 42
-  curl -sSfX POST -H "Authorization: token $token" https://api.github.com$*
-}
+test -z "$method" && echo "http method required" 1>&2 && exit 42
+test -z "$(echo -e "GET\nPOST\nDELETE" | grep "^$method$")" && echo "invalid http method" 1>&2 && exit 43
+test -z "$url" && echo "url required" 1>&2 && exit 42
+test -z "$token" && echo "access token required." 1>&2 && exit 42
 
-_git_api_delete(){
-  token=$(git gh-oauth)
-  test -z "$token" && echo "access token required." >&2 && exit 42
-  curl -sSfX DELETE -H "Authorization: token $token" https://api.github.com$*
-}
-
-subcommand=$1
-shift
-case $subcommand in
-  get) _git_api_get $1 ;;
-  post) _git_api_post $1 ;;
-  delete) _git_api_delete $1 ;;
-esac
+curl -sSX $method -H "Authorization: token $token" https://api.github.com$url -d "$body"
