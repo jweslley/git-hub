@@ -10,4 +10,16 @@ test -z "$(echo -e "GET\nPOST\nDELETE" | grep "^$method$")" && echo "invalid htt
 test -z "$url" && echo "url required" 1>&2 && exit 42
 test -z "$token" && echo "access token required." 1>&2 && exit 42
 
-curl -sSX $method -H "Authorization: token $token" https://api.github.com$url -d "$body"
+response=$(curl -sSX $method https://api.github.com$url \
+                      -H "Authorization: token $token"  \
+                      -d "$body" --write-out "%{http_code}")
+
+json=`echo $response | sed 's/...$//'`
+http_code=`echo -e "$response" | tail -1`
+
+if [ "${http_code:0:1}" == "2" ] ; then
+  printf "$json"
+else
+  printf "$json" | jshon -e message -u 1>&2
+  exit $((http_code - 300))
+fi
