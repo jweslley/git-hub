@@ -7,7 +7,7 @@ git ssh-key rm <key_id>"
 }
 
 _git_ssh_key_list(){
-  git api GET /user/keys | jshon -a -e id -u -p -e title -u |\
+  git gh-api GET /user/keys | jshon -a -e id -u -p -e title -u |\
     sed -e '{N;s/\n/ /}' | column -t
 }
 
@@ -20,13 +20,13 @@ _git_ssh_key_add(){
   test ! -e "$pubkey_file" && echo "No such key file '$pubkey_file'" 1>&2 && exit 3
 
   body="{\"title\": \"$title\", \"key\": \"$(cat $pubkey_file)\"}"
-  git api POST /user/keys "$body" > /dev/null && echo "ssh-key was created"
+  git gh-api POST /user/keys "$body" > /dev/null && echo "ssh-key was created"
 }
 
 _git_ssh_key_rm(){
   id=$1
   test -z $id && echo "id required." 1>&2 && exit 1
-  git api DELETE /user/keys/$id && echo "ssh-key was deleted"
+  git gh-api DELETE /user/keys/$id && echo "ssh-key was deleted"
 }
 
 test $# -eq 0 && _git_ssh_key_list && exit
