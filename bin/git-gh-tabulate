@@ -1,0 +1,10 @@
+#!/bin/bash
+
+attrs="$1"
+sep=""
+
+columnCount=$(echo $attrs | wc -w)
+sedglue=$(yes "N;" | head -$((columnCount - 1)) | xargs -i printf {})
+header=$(echo $attrs | tr " " "$sep")
+table=$(git gh-json "$attrs" | sed -e "$sedglue;s/\n/$sep/g")
+echo "$(echo "$header"; echo "$table")" | column -t -s"$sep"
