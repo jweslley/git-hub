@@ -49,8 +49,9 @@ _git_repo_create(){
 
   test -z "$name" && echo "name required" && exit 1
 
+  # FIXME cannot send private=false \"homepage\": \"$homepage\",  \"private\": \"$private\",      \
   body="{\"name\": \"$name\", \"description\": \"$description\",  \
-    \"homepage\": \"$homepage\",  \"private\": \"$private\",      \
+    \"homepage\": \"$homepage\",      \
     \"has_issues\": \"$has_issues\", \"has_wiki\": \"$has_wiki\", \
     \"has_downloads\": \"$has_downloads\"}"
 
