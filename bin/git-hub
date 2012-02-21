@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 _git_hub_api(){
   test $# -eq 0 && curl -i https://api.github.com && exit
@@ -39,9 +39,19 @@ _git_hub_oauth(){
     printf "Github password:"
     read passwd
     stty $stty_orig
-    url="https://api.github.com/authorizations"
-    oauthToken=$(curl -# -u "$user:$passwd" $url -d '{"scopes": ["repo", "user", "gist"]}' | gh-json token)
-    git config --global github.oauthToken $oauthToken
+    response=$(curl -# -u "$user:$passwd" "https://api.github.com/authorizations" \
+              -d '{"scopes": ["repo", "user", "gist"]}' --write-out "%{http_code}")
+
+    json=`echo $response | sed 's/...$//'`
+    http_code=`echo -e "$response" | tail -1`
+
+    if [ "${http_code:0:1}" == "2" ] ; then
+      oauthToken=$(printf "$json" | gh-json token)
+      git config --global github.oauthToken $oauthToken
+    else
+      printf "$json" | gh-json message 1>&2
+      exit $((http_code - 300))
+    fi
   fi
   echo $oauthToken
 }
