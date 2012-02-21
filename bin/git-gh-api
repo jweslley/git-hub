@@ -20,6 +20,6 @@ http_code=`echo -e "$response" | tail -1`
 if [ "${http_code:0:1}" == "2" ] ; then
   printf "$json"
 else
-  printf "$json" | jshon -e message -u 1>&2
+  printf "$json" | gh-json message 1>&2
   exit $((http_code - 300))
 fi

@@ -73,7 +73,7 @@ _git_pull_request_open(){
   body="{\"title\": \"$title\", \"body\": \"$message\", \"base\": \"$base\", \"head\": \"$head\"}"
   # TODO add issue option as alternative input to title/message
   # TODO request pull request for orginal repo: POST /repos/jwerlley/learn_python/pulls 
-  # use `git gh-api GET /repos/jweslley/learn_python  | jshon -e parent` to get info from original repo
+  # use `git gh-api GET /repos/jweslley/learn_python  | gh-json parent` to get info from original repo
   git gh-api POST /repos/$owner/$repo/pulls "$body"
 }
 

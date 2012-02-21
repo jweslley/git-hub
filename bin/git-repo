@@ -70,5 +70,6 @@ subcommand=$1
 shift
 case $subcommand in
   create) _git_repo_create $* ;;
+# TODO clone) _git_repo_clone $* ;;
   *) _git_repo_usage ;;
 esac

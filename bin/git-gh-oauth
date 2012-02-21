@@ -11,7 +11,7 @@ if [ -z $oauthToken ] ; then
   read passwd
   stty $stty_orig
   url="https://api.github.com/authorizations"
-  oauthToken=$(curl -# -u "$user:$passwd" $url -d '{"scopes": ["repo", "user", "gist"]}' | jshon -e token -u)
+  oauthToken=$(curl -# -u "$user:$passwd" $url -d '{"scopes": ["repo", "user", "gist"]}' | gh-json token)
   git config --global github.oauthToken $oauthToken
 fi
 echo $oauthToken

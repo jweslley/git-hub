@@ -6,11 +6,7 @@ Note: Working in progress. Changes will come.
 
 ## Requirements
 
-  * [jshon](https://github.com/keenerd/jshon)
-
-Note: jshon requires `libjansson4`. On Debian systems, you can install it using:
-
-        apt-get install libjansson4
+  * Python 2.6 or newer.
 
 ## Installation
 

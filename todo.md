@@ -1,7 +1,6 @@
 # features
 
   * create local branch atfer add remote in git-fork? git checkout -b local-branch $user/master
-  * create python script to replace jshon
   * add progress messages
   * add bash completion support
 

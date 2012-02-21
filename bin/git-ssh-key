@@ -7,8 +7,7 @@ git ssh-key rm <key_id>"
 }
 
 _git_ssh_key_list(){
-  git gh-api GET /user/keys | jshon -a -e id -u -p -e title -u |\
-    sed -e '{N;s/\n/ /}' | column -t
+  git gh-api GET /user/keys | git gh-tabulate "id title"
 }
 
 _git_ssh_key_add(){
