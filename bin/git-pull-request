@@ -16,7 +16,6 @@ _git_pull_request_list(){
   test -z "$repo" && echo "unable to define repo name" && exit 1
   test -z "$user" && echo "username required" && exit 1
 
-  # TODO fails if no exists pull requests
   columns=$(git config pull-request.list || echo "number state user.login created_at title")
   git hub api GET /repos/$owner/$repo/pulls | git hub tabulate "$columns"
 }
