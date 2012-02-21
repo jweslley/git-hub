@@ -7,7 +7,7 @@ git ssh-key rm <key_id>"
 }
 
 _git_ssh_key_list(){
-  git gh-api GET /user/keys | git gh-tabulate "id title"
+  git hub api GET /user/keys | git hub tabulate "id title"
 }
 
 _git_ssh_key_add(){
@@ -19,13 +19,13 @@ _git_ssh_key_add(){
   test ! -e "$pubkey_file" && echo "No such key file '$pubkey_file'" 1>&2 && exit 3
 
   body="{\"title\": \"$title\", \"key\": \"$(cat $pubkey_file)\"}"
-  git gh-api POST /user/keys "$body" > /dev/null && echo "ssh-key was created"
+  git hub api POST /user/keys "$body" > /dev/null && echo "ssh-key was created"
 }
 
 _git_ssh_key_rm(){
   id=$1
   test -z $id && echo "id required." 1>&2 && exit 1
-  git gh-api DELETE /user/keys/$id && echo "ssh-key was deleted"
+  git hub api DELETE /user/keys/$id && echo "ssh-key was deleted"
 }
 
 test $# -eq 0 && _git_ssh_key_list && exit

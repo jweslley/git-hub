@@ -9,7 +9,7 @@ _git_repo_list(){
 
   body="{\"type\": \"$type\"}"
   columns=$(git config repo.list || echo "name description")
-  git gh-api GET /user/repos | git gh-tabulate "$columns"
+  git hub api GET /user/repos | git hub tabulate "$columns"
 }
 
 _git_repo_create(){
@@ -58,7 +58,7 @@ _git_repo_create(){
   # TODO add option to remote name
   # TODO add option to push another branch, not just master
   # TODO push the current branch by default, not master
-  git gh-api POST /user/repos "$body" > /dev/null              \
+  git hub api POST /user/repos "$body" > /dev/null              \
     && git remote add -f origin git@github.com:$user/$name.git \
     && git push -u origin master                               \
     && echo "$name repository was created"

@@ -18,7 +18,7 @@ _git_pull_request_list(){
 
   # TODO fails if no exists pull requests
   columns=$(git config pull-request.list || echo "number state user.login created_at title")
-  git gh-api GET /repos/$owner/$repo/pulls | git gh-tabulate "$columns"
+  git hub api GET /repos/$owner/$repo/pulls | git hub tabulate "$columns"
 }
 
 _git_pull_request_show(){
@@ -36,7 +36,7 @@ _git_pull_request_show(){
 
   test -z "$id" && echo "pull request id required" && exit 1
   # TODO List commits on a pull request, List pull requests files
-  git gh-api GET /repos/$owner/$repo/pulls/$id
+  git hub api GET /repos/$owner/$repo/pulls/$id
 }
 
 _git_pull_request_open(){
@@ -73,8 +73,8 @@ _git_pull_request_open(){
   body="{\"title\": \"$title\", \"body\": \"$message\", \"base\": \"$base\", \"head\": \"$head\"}"
   # TODO add issue option as alternative input to title/message
   # TODO request pull request for orginal repo: POST /repos/jwerlley/learn_python/pulls 
-  # use `git gh-api GET /repos/jweslley/learn_python  | gh-json parent` to get info from original repo
-  git gh-api POST /repos/$owner/$repo/pulls "$body"
+  # use `git hub api GET /repos/jweslley/learn_python  | gh-json parent` to get info from original repo
+  git hub api POST /repos/$owner/$repo/pulls "$body"
 }
 
 _git_pull_request_close(){
@@ -93,7 +93,7 @@ _git_pull_request_close(){
   test -z "$id" && echo "pull request id required" && exit 1
 
   body="{\"state\": \"closed\", \"_method\": \"PATCH\"}"
-  git gh-api POST /repos/$owner/$repo/pulls/$id "$body" > /dev/null && echo "pull request #$id was closed"
+  git hub api POST /repos/$owner/$repo/pulls/$id "$body" > /dev/null && echo "pull request #$id was closed"
 }
 
 _git_pull_request_merge(){
@@ -115,7 +115,7 @@ _git_pull_request_merge(){
   body="{\"_method\": \"PUT\", \"commit_message\": \"$message\"}"
   # TODO verify if mergeable == true
   # FIXME not found?! how merge this?
-  git gh-api POST /repos/$owner/$repo/pulls/$id/merge "$body" > /dev/null && echo "pull request #$id was merged"
+  git hub api POST /repos/$owner/$repo/pulls/$id/merge "$body" > /dev/null && echo "pull request #$id was merged"
 }
 
 _git_pull_request_apply(){
