@@ -22,7 +22,7 @@ And add the `bin/` directory in your `PATH`:
 
 Mostly operations in GitHub tools requires access to your GitHub data, this access is granted using the fabulous [GitHub API](http://api.github.com/). For this, you need to generate a OAuth token using the following command:
 
-    git gh-oauth
+    git hub oauth
 
 ## Usage
 
