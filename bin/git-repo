@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 _git_repo_usage(){
   echo ""
@@ -64,12 +64,31 @@ _git_repo_create(){
     && echo "$name repository was created"
 }
 
+_git_repo_clone(){
+  info="$1"; shift
+
+  if [[ -z `echo "$info" | grep -v /` ]]; then
+    user=$(echo "$info" | cut -d/ -f1)
+    repo=$(echo "$info" | cut -d/ -f2)
+    url="git://github.com/$user/$repo.git"
+  else
+    user=$(git config github.user)
+    repo="$info"
+    url="git@github.com:$user/$repo.git"
+  fi
+
+  test -z "$user" && echo "username required." && exit 1
+  test -z "$repo" && echo "repo name required." && exit 2
+
+  git clone $url "$@"
+}
+
 test $# -eq 0 && _git_repo_list && exit
 
 subcommand=$1
 shift
 case $subcommand in
-  create) _git_repo_create $* ;;
-# TODO clone) _git_repo_clone $* ;;
+  create) _git_repo_create "$@" ;;
+  clone) _git_repo_clone "$@" ;;
   *) _git_repo_usage ;;
 esac
