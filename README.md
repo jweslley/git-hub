@@ -1,4 +1,4 @@
-# GitHub Tools
+# git-hub
 
 GitHub for hackers.
 
@@ -12,15 +12,15 @@ Note: Working in progress. Changes will come.
 
 Clone this repository:
 
-    git clone git://github.com/jweslley/github-tools.git
+    git clone git://github.com/jweslley/github.git
 
 And add the `bin/` directory in your `PATH`:
 
-    export PATH="$PATH:/path/to/github-tools/bin"
+    export PATH="$PATH:/path/to/github/bin"
 
 ## Setup
 
-Mostly operations in GitHub tools requires access to your GitHub data, this access is granted using the fabulous [GitHub API](http://api.github.com/). For this, you need to generate a OAuth token using the following command:
+Mostly operations in git-hub requires access to your GitHub data, this access is granted using the fabulous [GitHub API](http://api.github.com/). For this, you need to generate an OAuth token using the following command:
 
     git hub oauth
 
@@ -64,11 +64,11 @@ List all ssh keys when no args are provided.
 
 If you discover any bugs or have some idea, feel free to create an issue on GitHub:
 
-    https://github.com/jweslley/github-tools/issues
+    https://github.com/jweslley/git-hub/issues
 
 Looking for ideas:
 
-1. [Fork](http://help.github.com/forking/) GitHub tools
+1. [Fork](http://help.github.com/forking/) git-hub
 2. Look at `todo.md` or run `git grep -E "TODO|FIXME"`
 3. Create a topic branch - `git checkout -b my_branch`
 4. Make some awesome code.
