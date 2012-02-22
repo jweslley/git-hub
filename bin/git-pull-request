@@ -146,6 +146,8 @@ case $subcommand in
   close) _git_pull_request_close $* ;;
   merge) _git_pull_request_merge $* ;;
   apply) _git_pull_request_apply $* ;;
+  # TODO branch) _git_pull_request_branch $* ;;
+  # TODO reopen) _git_pull_request_reopen $* ;;
   show) _git_pull_request_show $* ;;
   *) _git_pull_request_usage ;;
 esac

@@ -3,6 +3,7 @@
   * create local branch atfer add remote in git-fork? git checkout -b local-branch $user/master
   * add progress messages
   * add bash completion support
+  * use `"$@"` instead of `"$*"`
 
 ## references:
 
