@@ -17,6 +17,7 @@ _git_ssh_key_add(){
   test -z "$title" && echo "title required" 1>&2 && exit 1
   test -z "$pubkey_file" && echo "key file required" 1>&2 && exit 2
   test ! -e "$pubkey_file" && echo "No such key file '$pubkey_file'" 1>&2 && exit 3
+  test -d "$pubkey_file" && echo "'$pubkey_file' is a directory" 1>&2 && exit 4
 
   body="{\"title\": \"$title\", \"key\": \"$(cat $pubkey_file)\"}"
   git hub api POST /user/keys "$body" > /dev/null && echo "ssh-key was created"
