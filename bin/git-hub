@@ -1,11 +1,25 @@
 #!/bin/bash
 
+__git_hub_tabulate(){
+  attrs="$*"
+  sep=""
+
+  columnCount=$(echo $attrs | wc -w)
+  sedglue=$(yes "N;" | head -$((columnCount - 1)) | xargs -i printf {})
+  header=$(echo $attrs | tr " " "$sep")
+  table=$(gh-json $attrs | sed -e "$sedglue;s/\n/$sep/g")
+  if [ ! -z "$table" ] ; then
+    echo "$(echo "$header"; echo "$table")" | column -t -s"$sep"
+  fi
+}
+
 _git_hub_api(){
   test $# -eq 0 && curl -i https://api.github.com && exit
 
-  method="$1"; shift
-  url="$1"; shift
-  body="$*"
+  method="$1"
+  url="$2"
+  body="$3"
+  columns="$4"
   token=$(git hub oauth)
 
   test -z "$method" && echo "http method required" 1>&2 && exit 42
@@ -21,7 +35,11 @@ _git_hub_api(){
   http_code=`echo -e "$response" | tail -1`
 
   if [ "${http_code:0:1}" == "2" ] ; then
-    printf "$json"
+    if [ -z "$columns" ] ; then
+      printf "$json"
+    else
+      printf "$json" | __git_hub_tabulate "$columns"
+    fi
   else
     printf "$json" | gh-json message 1>&2
     exit $((http_code - 300))
@@ -56,25 +74,11 @@ _git_hub_oauth(){
   echo $oauthToken
 }
 
-_git_hub_tabulate(){
-  attrs="$*"
-  sep=""
-
-  columnCount=$(echo $attrs | wc -w)
-  sedglue=$(yes "N;" | head -$((columnCount - 1)) | xargs -i printf {})
-  header=$(echo $attrs | tr " " "$sep")
-  table=$(gh-json $attrs | sed -e "$sedglue;s/\n/$sep/g")
-  if [ ! -z "$table" ] ; then
-    echo "$(echo "$header"; echo "$table")" | column -t -s"$sep"
-  fi
-}
-
 test $# -eq 0 && echo "GitHub for hackers" && exit
 
 subcommand=$1
 shift
 case $subcommand in
-  api) _git_hub_api $* ;;
+  api) _git_hub_api "$@" ;;
   oauth) _git_hub_oauth ;;
-  tabulate) _git_hub_tabulate $* ;;
 esac

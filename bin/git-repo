@@ -9,7 +9,7 @@ _git_repo_list(){
 
   body="{\"type\": \"$type\"}"
   columns=$(git config repo.list || echo "name description")
-  git hub api GET /user/repos "$body" | git hub tabulate "$columns"
+  git hub api GET /user/repos "$body" "$columns"
 }
 
 _git_repo_create(){

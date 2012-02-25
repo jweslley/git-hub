@@ -7,7 +7,7 @@ git ssh-key rm <key_id>"
 }
 
 _git_ssh_key_list(){
-  git hub api GET /user/keys | git hub tabulate "id title"
+  git hub api GET /user/keys "" "id title"
 }
 
 _git_ssh_key_add(){

@@ -17,7 +17,7 @@ _git_pull_request_list(){
   test -z "$user" && echo "username required" && exit 1
 
   columns=$(git config pull-request.list || echo "number state user.login created_at title")
-  git hub api GET /repos/$owner/$repo/pulls | git hub tabulate "$columns"
+  git hub api GET /repos/$owner/$repo/pulls "" "$columns"
 }
 
 _git_pull_request_show(){
