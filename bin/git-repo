@@ -9,7 +9,7 @@ _git_repo_list(){
 
   body="{\"type\": \"$type\"}"
   columns=$(git config repo.list || echo "name description")
-  git hub api GET /user/repos | git hub tabulate "$columns"
+  git hub api GET /user/repos "$body" | git hub tabulate "$columns"
 }
 
 _git_repo_create(){
@@ -90,5 +90,6 @@ shift
 case $subcommand in
   create) _git_repo_create "$@" ;;
   clone) _git_repo_clone "$@" ;;
+  list) _git_repo_list "$@" ;;
   *) _git_repo_usage ;;
 esac
