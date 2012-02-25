@@ -47,6 +47,7 @@ _git_hub_api(){
 }
 
 _git_hub_oauth(){
+  # TODO add option `-f` force to regenerate the token
   user=`git config github.user`
   test -z "$user" && echo "failed to fetch github.user" 1>&2 && exit 1
   oauthToken=`git config github.oauthToken`
