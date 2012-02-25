@@ -64,7 +64,9 @@ _git_hub_tabulate(){
   sedglue=$(yes "N;" | head -$((columnCount - 1)) | xargs -i printf {})
   header=$(echo $attrs | tr " " "$sep")
   table=$(gh-json $attrs | sed -e "$sedglue;s/\n/$sep/g")
-  echo "$(echo "$header"; echo "$table")" | column -t -s"$sep"
+  if [ ! -z "$table" ] ; then
+    echo "$(echo "$header"; echo "$table")" | column -t -s"$sep"
+  fi
 }
 
 test $# -eq 0 && echo "GitHub for hackers" && exit
